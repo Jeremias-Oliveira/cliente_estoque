@@ -21,10 +21,10 @@ session_start();
 </head>
 <body>
     <nav class="menu-lateral">
+        
         <div class="btn-exp">
             <i class="bi bi-list" id="btn-expandir"></i>
         </div>
-
         <ul>
             <li class="item-menu ativo">
                 <a href="#">
@@ -38,6 +38,15 @@ session_start();
                     <span class="txt-link">Estoque</span>
                 </a>
             </li>
+            <div class="sair">
+                <hr>
+                <li class="item-sair">
+                    <a href="../action/sair.php">
+                        <span class="icon"><i class="bi bi-box-arrow-right"></i></span>
+                        <span class="txt-link">sair</span>
+                    </a>
+                </li>
+            </div>
         </ul>
     </nav>
     <script src="../assets/js/menu-lateral.js"></script>

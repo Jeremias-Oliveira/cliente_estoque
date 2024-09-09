@@ -47,7 +47,7 @@ ul{
     list-style-type: none;
 }
 
-ul li.item-menu{
+ul li.item-menu,.item-sair{
     transition: 0.3s;
     padding-left: 15px;
 }
@@ -56,11 +56,11 @@ ul li.ativo{
     background-color: #101010;
 }
 
-ul li.item-menu:hover{
+ul li.item-menu:hover,.item-sair:hover{
     background-color: #101010;
 }
 
-ul li.item-menu a{
+ul li.item-menu a,.item-sair a{
     color: #fff;
     text-decoration: none;
     font-size: 20px;
@@ -68,6 +68,16 @@ ul li.item-menu a{
     display: flex;
 }
 
-ul li.item-menu a .txt-link{
+ul li.item-menu a .txt-link,.item-sair a .txt-link{
     margin-left: 40px;
+}
+
+.sair{
+    width: 100%;
+    height: 100%;
+    padding-top: 339px;
+}
+
+.item-sair{
+    padding-left: 18px;
 }
