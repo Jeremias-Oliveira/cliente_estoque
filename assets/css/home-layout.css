@@ -75,9 +75,51 @@ ul li.item-menu a .txt-link,.item-sair a .txt-link{
 .sair{
     width: 100%;
     height: 100%;
-    padding-top: 339px;
+    padding-top: 40vh;
 }
 
 .item-sair{
     padding-left: 18px;
+}
+
+.item-perfil a{
+    color: #fff;
+    text-decoration: none;
+    font-size: 20px;
+    padding-left: 4%;
+    display: flex;
+    padding-left: 18px;
+    padding-bottom: 50px;
+}
+
+.item-perfil a .txt-perfil{
+    padding-left: 40px;
+}
+.img-perfil img{
+    width: 40px;
+    padding: 0;
+    border-radius: 100%;
+    margin: 0;
+}
+
+.item-perfil{
+    width: 10px;
+    padding-top: 20px;
+    padding-right: 30px;
+    margin: 0;
+}
+
+.cadastrar > i{
+    color: #ffffff;
+    margin-left: 4%;
+    position: absolute;
+    margin-left: 180px;
+    margin-top: 20px;
+    padding: 5px 7px;
+    border-radius: 5px;
+    transition: 0.5s;
+}
+
+.cadastrar > i:hover{
+    background-color: #686868;
 }

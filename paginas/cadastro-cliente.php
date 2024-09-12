@@ -2,7 +2,7 @@
 
     if(isset($_POST['submit']))
     {
-        include_once('config/config.php');
+        include_once('../config/config.php');
 
         $nome = $_POST['full_name'];
         $cpf = $_POST['cpf'];
@@ -10,11 +10,10 @@
         $data_nasc = $_POST['date'];
         $endereco = $_POST['address'];
         $email = $_POST['email'];
-        $senha = $_POST['senha'];
         $telefone = $_POST['phone'];
 
-        $result = mysqli_query($conexao, "INSERT INTO Usuarios(nome_completo,cpf,sexo,idade,endereco,email,senha,telefone) 
-        VALUES ('$nome','$cpf','$sexo','$data_nasc','$endereco','$email','$senha','$telefone')");
+        $result = mysqli_query($conexao, "INSERT INTO clientes(nome_completo,cpf,sexo,idade,endereco,email,telefone) 
+        VALUES ('$nome','$cpf','$sexo','$data_nasc','$endereco','$email','$telefone')");
     }
 
 ?>
@@ -23,13 +22,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro</title>
-    <link rel="stylesheet" href="assets/css/cadastro-layout.css">
+    <title>Cadastro de Clientes</title>
+    <link rel="stylesheet" href="../assets/css/cadastro-layout.css">
 </head>
 <body>
 <div class="container">
-	<h1>Cadastro | Usuário</h1>
-	<form action="cadastro.php" method="POST">
+	<h1>Cadastro | Clientes</h1>
+	<form action="cadastro-cliente.php" method="POST">
         <label for="full_name">Nome Completo:</label>
         <input type="text" id="full_name" name="full_name" placeholder="Seu Nome Completo" required><br><br>
         
@@ -53,15 +52,11 @@
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" placeholder="seuemail@example.com" required><br><br>
         
-        <label for="password">Senha:</label>
-        <input type="password" id="senha" name="senha" placeholder="Sua Senha" required><br><br>
-        
         <label for="phone">Telefone:</label>
         <input type="tel" id="phone" name="phone" placeholder="(11) 98765-4321" pattern="\(\d{2}\) \d{5}-\d{4}" required><br><br>
         
         <input type="submit" name="submit" value="Cadastrar">
     	</form>
-	<p>Já tem uma conta? <a href="index.php">Volte para a página de login</a>.</p>
 </div>
 </body>
 </html>
