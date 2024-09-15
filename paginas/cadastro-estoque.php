@@ -8,8 +8,8 @@
 </head>
 <body>
 <div class="container">
-<?php
 
+<?php
 if (isset($_POST['submit'])) {
     include_once('../config/config.php');
 
@@ -49,6 +49,7 @@ if (isset($_POST['submit'])) {
     }
 }
 ?>
+
 	<h1>Cadastro | Estoque</h1>
 	<form action="cadastro-estoque.php" method="POST">
         <label for="full_name">Nome do Produto:</label>

@@ -9,25 +9,29 @@ if (isset($_POST['submit']) && !empty($_POST['email']) && !empty($_POST['senha']
 
     try {
         // Prepare a SQL statement
-        $sql = "SELECT * FROM usuarios WHERE email = :email AND senha = :senha";
+        $sql = "SELECT * FROM usuarios WHERE email = :email";
         $stmt = $conexao->prepare($sql);
 
         // Bind parameters to avoid SQL injection
         $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':senha', $senha);
 
         // Execute the statement
         $stmt->execute();
 
-        // Fetch the number of rows returned
-        if ($stmt->rowCount() < 1) {
+        // Fetch the user data
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Verify the password
+        if ($user && password_verify($senha, $user['senha'])) {
+            $_SESSION['email'] = $email;
+            $_SESSION['senha'] = $senha;
+            $_SESSION['nome'] =  $user['nome'];
+
+            header('Location: ../paginas/home.php');
+        } else {
             unset($_SESSION['email']);
             unset($_SESSION['senha']);
             header('Location: ../index.php');
-        } else {
-            $_SESSION['email'] = $email;
-            $_SESSION['senha'] = $senha;
-            header('Location: ../paginas/home.php');
         }
     } catch (PDOException $e) {
         // Handle potential exceptions

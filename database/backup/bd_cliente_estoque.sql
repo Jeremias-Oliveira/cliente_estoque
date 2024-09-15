@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.39, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.38, for Win64 (x86_64)
 --
 -- Host: localhost    Database: cliente_estoque
 -- ------------------------------------------------------
--- Server version	8.0.39-0ubuntu0.22.04.1
+-- Server version	5.5.5-10.4.32-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -23,14 +23,14 @@ DROP TABLE IF EXISTS `clientes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `clientes` (
-  `id_clientes` int NOT NULL AUTO_INCREMENT,
-  `nome_completo` char(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cpf` varchar(14) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `sexo` varchar(9) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id_clientes` int(11) NOT NULL AUTO_INCREMENT,
+  `nome_completo` char(50) NOT NULL,
+  `cpf` varchar(14) NOT NULL,
+  `sexo` varchar(9) NOT NULL,
   `idade` date NOT NULL,
-  `endereco` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `telefone` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `endereco` varchar(200) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `telefone` varchar(15) NOT NULL,
   PRIMARY KEY (`id_clientes`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -52,15 +52,15 @@ DROP TABLE IF EXISTS `estoque`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `estoque` (
-  `id_estoque` int NOT NULL AUTO_INCREMENT,
-  `nome_produto` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `categoria` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `descricao` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `quantidade` int NOT NULL,
+  `id_estoque` int(11) NOT NULL AUTO_INCREMENT,
+  `nome_produto` varchar(50) NOT NULL,
+  `categoria` varchar(50) NOT NULL,
+  `descricao` varchar(100) NOT NULL,
+  `quantidade` int(11) NOT NULL,
   `data` date NOT NULL,
-  `movimentacao` char(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `movimentacao` char(50) NOT NULL,
   `preco` float DEFAULT NULL,
-  `fornecedor` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `fornecedor` varchar(50) NOT NULL,
   PRIMARY KEY (`id_estoque`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -82,17 +82,18 @@ DROP TABLE IF EXISTS `usuarios`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `usuarios` (
-  `id_usuario` int NOT NULL AUTO_INCREMENT,
-  `nome_completo` char(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cpf` varchar(14) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `sexo` varchar(9) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id_usuario` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` char(30) NOT NULL,
+  `sobrenome` varchar(30) NOT NULL,
+  `cpf` varchar(14) NOT NULL,
+  `sexo` varchar(9) NOT NULL,
   `idade` date NOT NULL,
-  `endereco` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `senha` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `telefone` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `endereco` varchar(200) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `senha` varchar(200) NOT NULL,
+  `telefone` varchar(15) NOT NULL,
   PRIMARY KEY (`id_usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -113,4 +114,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-09-13 10:11:04
+-- Dump completed on 2024-09-14 21:05:08

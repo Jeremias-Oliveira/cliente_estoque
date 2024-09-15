@@ -9,34 +9,40 @@
 <body>
 
 <div class="container">
+
 <?php
 if (isset($_POST['submit'])) {
     include_once('config/config.php');
 
     // Coletando dados do formulário
-    $nome = $_POST['full_name'];
+    $nome = $_POST['name'];
+    $sobrenome = $_POST['surname'];
     $cpf = $_POST['cpf'];
     $sexo = $_POST['gender'];
     $data_nasc = $_POST['date'];
     $endereco = $_POST['address'];
     $email = $_POST['email'];
-    $senha = $_POST['senha']; // Lembre-se de que a senha deve ser armazenada de forma segura, geralmente criptografada
+    $senha = $_POST['senha'];
     $telefone = $_POST['phone'];
+
+    // Criptografando a senha
+    $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
 
     try {
         // Preparar a instrução SQL
-        $sql = "INSERT INTO usuarios (nome_completo, cpf, sexo, idade, endereco, email, senha, telefone) 
-                VALUES (:nome, :cpf, :sexo, :data_nasc, :endereco, :email, :senha, :telefone)";
+        $sql = "INSERT INTO usuarios (nome, sobrenome, cpf, sexo, idade, endereco, email, senha, telefone) 
+                VALUES (:nome, :sobrenome, :cpf, :sexo, :data_nasc, :endereco, :email, :senha, :telefone)";
         $stmt = $conexao->prepare($sql);
 
         // Vincular parâmetros
         $stmt->bindParam(':nome', $nome);
+        $stmt->bindParam(':sobrenome', $sobrenome);
         $stmt->bindParam(':cpf', $cpf);
         $stmt->bindParam(':sexo', $sexo);
         $stmt->bindParam(':data_nasc', $data_nasc);
         $stmt->bindParam(':endereco', $endereco);
         $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':senha', $senha);
+        $stmt->bindParam(':senha', $senha_hash);
         $stmt->bindParam(':telefone', $telefone);
 
         // Executar a consulta
@@ -49,11 +55,16 @@ if (isset($_POST['submit'])) {
         echo '<div class="message error">Erro: ' . htmlspecialchars($e->getMessage()) . '</div>';
     }
 }
+
 ?>
+
 	<h1>Cadastro | Usuário</h1>
 	<form action="cadastro.php" method="POST">
-        <label for="full_name">Nome Completo:</label>
-        <input type="text" id="full_name" name="full_name" placeholder="Seu Nome Completo" required><br><br>
+        <label for="name">Nome:</label>
+        <input type="text" id="name" name="name" placeholder="Seu Nome" required><br><br>
+
+        <label for="surname">Sobrenome:</label>
+        <input type="text" id="surname" name="surname" placeholder="Seu Sobrenome" required><br><br>
         
         <label for="cpf">CPF:</label>
         <input type="text" id="cpf" name="cpf" placeholder="123.456.789-00" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" required><br><br>
@@ -85,6 +96,5 @@ if (isset($_POST['submit'])) {
     	</form>
 	<p>Já tem uma conta? <a href="index.php">Volte para a página de login</a>.</p>
 </div>
-
 </body>
 </html>

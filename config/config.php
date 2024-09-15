@@ -2,7 +2,7 @@
 
     $dbHost = 'localhost'; // Ajustado para o formato padrão
     $dbUsername = 'root';
-    $dbPassword = 'bdjmf';
+    $dbPassword = '';
     $dbName = 'cliente_estoque';
 
     try {
@@ -14,4 +14,5 @@
     } catch (PDOException $e) {
         // echo "Falha ao conectar ao banco de dados: " . $e->getMessage();
     }
+
 ?>
