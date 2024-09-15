@@ -2,16 +2,20 @@
 session_start();
 
 // Verifica se a sessão está ativa
-if (!isset($_SESSION['email']) || !isset($_SESSION['senha']) || !isset($_SESSION['nome'])) {
+if (!isset($_SESSION['email']) || !isset($_SESSION['senha']) || !isset($_SESSION['nome']) || !isset($_SESSION['id'])) {
     // Se não estiver ativo, destrói a sessão e redireciona para a página inicial
     unset($_SESSION['email']);
     unset($_SESSION['senha']);
     unset($_SESSION['nome']);
+    unset($_SESSION['id']);
+    unset($_SESSION['foto']);
+
     header('Location: ../index.php');
     exit(); // Certifique-se de encerrar a execução após o redirecionamento
 }
-
-$logado = $_SESSION['nome'];
+$id = $_SESSION['id'];
+$foto = $_SESSION['foto'];
+$nome = $_SESSION['nome'];
 ?>
 
 <!DOCTYPE html>

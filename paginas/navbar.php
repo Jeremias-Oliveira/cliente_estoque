@@ -1,3 +1,23 @@
+<?php
+// Supondo que você já tenha uma conexão com o banco de dados
+include_once('../config/config.php');
+
+// Verifica se a imagem de perfil foi encontrada
+if ($foto) {
+    $imagem_perfil = $foto;
+    // Verifica se a imagem existe na pasta
+    if (file_exists("../assets/images/img_user/" . $imagem_perfil)) {
+        $imagem_exibir = "../assets/images/img_user/" . $imagem_perfil;
+    } else {
+        // Define uma imagem padrão caso a imagem não seja encontrada na pasta
+        $imagem_exibir = "../assets/images/avatar-padrao.png";
+    }
+} else {
+    // Define uma imagem padrão caso não encontre a imagem do usuário no banco de dados
+    $imagem_exibir = "../assets/images/avatar-padrao.png";
+}
+?>
+
 <link rel="stylesheet" href="../assets/css/navbar-layout.css">
 <nav class="menu-lateral">
         
@@ -8,8 +28,8 @@
         <ul>
             <li class="item-perfil">
                 <a href="#">
-                    <span class="img-perfil"><i class="bi bi-person-circle"></i></span>
-                    <span class="txt-perfil"><?php  echo $logado; ?></span>
+                    <span class="img-perfil"><img src="<?php echo $imagem_exibir; ?>" alt="Imagem de Perfil"></span>
+                    <span class="txt-perfil"><?php  echo $nome; ?></span>
                 </a>
             </li>
             <a href="cadastro-cliente.php"><span class="cadastrar"><i class="bi bi-plus-square"></i></span></a>

@@ -26,11 +26,17 @@ if (isset($_POST['submit']) && !empty($_POST['email']) && !empty($_POST['senha']
             $_SESSION['email'] = $email;
             $_SESSION['senha'] = $senha;
             $_SESSION['nome'] =  $user['nome'];
+            $_SESSION['id'] = $user['id_usuario'];
+            $_SESSION['foto'] =  $user['foto'];
+
 
             header('Location: ../paginas/home.php');
         } else {
             unset($_SESSION['email']);
             unset($_SESSION['senha']);
+            unset($_SESSION['nome']);
+            unset($_SESSION['id']);
+            unset($_SESSION['foto']);
             header('Location: ../index.php');
         }
     } catch (PDOException $e) {

@@ -28,10 +28,65 @@ if (isset($_POST['submit'])) {
     // Criptografando a senha
     $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
 
+    // Diretório onde a imagem será salva
+    $target_dir = "assets/images/img_user/";
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($_FILES["profile_picture"]["name"], PATHINFO_EXTENSION));
+
+    // Verifica se um arquivo foi enviado
+    if ($_FILES["profile_picture"]["error"] == UPLOAD_ERR_NO_FILE) {
+        $target_file = $target_dir . "avatar-padrao.png";
+        $target = "avatar-padrao.png";
+        $uploadOk = 1;
+    } else {
+        // Gera um nome único para a imagem
+        $new_file_name = uniqid('img_') . '.' . $imageFileType;
+        $target_file = $target_dir . $new_file_name;
+        $target = $new_file_name;
+
+        // Verifica se o arquivo é uma imagem real
+        $check = getimagesize($_FILES["profile_picture"]["tmp_name"]);
+        if ($check !== false) {
+            $uploadOk = 1;
+        } else {
+            echo '<div class="message error">O arquivo não é uma imagem.</div>';
+            $uploadOk = 0;
+        }
+
+        // Verifica se o arquivo já existe
+        if (file_exists($target_file)) {
+            echo '<div class="message error">Desculpe, o arquivo já existe.</div>';
+            $uploadOk = 0;
+        }
+
+        // Verifica o tamanho do arquivo (limite de 5MB)
+        if ($_FILES["profile_picture"]["size"] > 5000000) {
+            echo '<div class="message error">Desculpe, o arquivo é muito grande.</div>';
+            $uploadOk = 0;
+        }
+
+        // Permite apenas certos formatos de arquivo
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+            echo '<div class="message error">Desculpe, apenas arquivos JPG, JPEG e PNG são permitidos.</div>';
+            $uploadOk = 0;
+        }
+
+        // Verifica se $uploadOk está definido como 0 por algum erro
+        if ($uploadOk == 0) {
+            echo '<div class="message error">Desculpe, seu arquivo não foi enviado.</div>';
+        // Se tudo estiver ok, tenta fazer o upload do arquivo
+        } else {
+            if (move_uploaded_file($_FILES["profile_picture"]["tmp_name"], $target_file)) {
+                echo '<div class="message success">O arquivo ' . htmlspecialchars(basename($_FILES["profile_picture"]["name"])) . ' foi enviado com sucesso.</div>';
+            } else {
+                echo '<div class="message error">Desculpe, houve um erro ao enviar seu arquivo.</div>';
+            }
+        }
+    }
     try {
         // Preparar a instrução SQL
-        $sql = "INSERT INTO usuarios (nome, sobrenome, cpf, sexo, idade, endereco, email, senha, telefone) 
-                VALUES (:nome, :sobrenome, :cpf, :sexo, :data_nasc, :endereco, :email, :senha, :telefone)";
+        $sql = "INSERT INTO usuarios (nome, sobrenome, cpf, sexo, idade, endereco, email, senha, telefone, foto) 
+                VALUES (:nome, :sobrenome, :cpf, :sexo, :data_nasc, :endereco, :email, :senha, :telefone, :imagem_perfil)";
         $stmt = $conexao->prepare($sql);
 
         // Vincular parâmetros
@@ -44,6 +99,7 @@ if (isset($_POST['submit'])) {
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':senha', $senha_hash);
         $stmt->bindParam(':telefone', $telefone);
+        $stmt->bindParam(':imagem_perfil', $target);
 
         // Executar a consulta
         $stmt->execute();
@@ -55,11 +111,10 @@ if (isset($_POST['submit'])) {
         echo '<div class="message error">Erro: ' . htmlspecialchars($e->getMessage()) . '</div>';
     }
 }
-
 ?>
 
-	<h1>Cadastro | Usuário</h1>
-	<form action="cadastro.php" method="POST">
+    <h1>Cadastro | Usuário</h1>
+    <form action="cadastro.php" method="POST" enctype="multipart/form-data">
         <label for="name">Nome:</label>
         <input type="text" id="name" name="name" placeholder="Seu Nome" required><br><br>
 
@@ -92,9 +147,12 @@ if (isset($_POST['submit'])) {
         <label for="phone">Telefone:</label>
         <input type="tel" id="phone" name="phone" placeholder="(11) 98765-4321" pattern="\(\d{2}\) \d{5}-\d{4}" required><br><br>
         
+        <label for="profile_picture">Imagem de Perfil:</label>
+        <input type="file" id="profile_picture" name="profile_picture" accept=".png, .jpg, .jpeg"><br><br>
+        
         <input type="submit" name="submit" value="Cadastrar">
-    	</form>
-	<p>Já tem uma conta? <a href="index.php">Volte para a página de login</a>.</p>
+    </form>
+    <p>Já tem uma conta? <a href="index.php">Volte para a página de login</a>.</p>
 </div>
 </body>
 </html>
