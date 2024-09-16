@@ -27,19 +27,19 @@ if ($foto) {
        
         <ul>
             <li class="item-perfil">
-                <a href="#">
+                <a href="perfil.php" title="Dados do Perfil">
                     <span class="img-perfil"><img src="<?php echo $imagem_exibir; ?>" alt="Imagem de Perfil"></span>
                     <span class="txt-perfil"><?php  echo $nome; ?></span>
                 </a>
             </li>
-            <a href="cadastro-cliente.php"><span class="cadastrar"><i class="bi bi-plus-square"></i></span></a>
+            <a href="cadastro-cliente.php" title="Cadastro de Clientes"><span class="cadastrar"><i class="bi bi-plus-square"></i></span></a>
             <li class="item-menu ativo">
                 <a href="#">
                     <span class="icon"><i class="bi bi-people"></i></span>
                     <span class="txt-link">Cliente</span>
                 </a>
             </li>
-            <a href="cadastro-estoque.php"><span class="cadastrar"><i class="bi bi-plus-square"></i></span></a>
+            <a href="cadastro-estoque.php" title="Cadastro de Estoque"><span class="cadastrar"><i class="bi bi-plus-square"></i></span></a>
             <li class="item-menu">
                 <a href="#">
                     <span class="icon"><i class="bi bi-box-seam"></i></span>
