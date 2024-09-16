@@ -51,7 +51,7 @@ if (isset($_POST['submit'])) {
 	<h1>Cadastro | Clientes</h1>
 	<form action="cadastro-cliente.php" method="POST">
         <label for="full_name">Nome Completo:</label>
-        <input type="text" id="full_name" name="full_name" placeholder="Seu Nome Completo" required><br><br>
+        <input type="text" id="full_name" name="full_name" placeholder="Nome Completo" required><br><br>
         
         <label for="cpf">CPF:</label>
         <input type="text" id="cpf" name="cpf" placeholder="123.456.789-00" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" required><br><br>
@@ -59,16 +59,16 @@ if (isset($_POST['submit'])) {
         <label for="gender">Sexo:</label>
         <select id="gender" name="gender" required>
             <option value="" disabled selected>Selecione o Sexo</option>
-            <option value="male">Masculino</option>
-            <option value="female">Feminino</option>
-            <option value="other">Outro</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Feminino">Feminino</option>
+            <option value="Outro">Outro</option>
         </select><br><br>
         
         <label for="date">Data de Nascimento:</label>
-        <input type="date" id="date" name="date" placeholder="Sua data de Nascimento" required><br><br>
+        <input type="date" id="date" name="date" placeholder="Data de Nascimento" required><br><br>
         
         <label for="address">Endereço:</label>
-        <textarea id="address" name="address" placeholder="Seu Endereço Completo" rows="3" cols="50" required></textarea><br><br>
+        <textarea id="address" name="address" placeholder="Endereço Completo" rows="3" cols="50" required></textarea><br><br>
         
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" placeholder="seuemail@example.com" required><br><br>
@@ -77,6 +77,10 @@ if (isset($_POST['submit'])) {
         <input type="tel" id="phone" name="phone" placeholder="(11) 98765-4321" pattern="\(\d{2}\) \d{5}-\d{4}" required><br><br>
         
         <input type="submit" name="submit" value="Cadastrar">
+
+        <div class="form-group">
+                <a href="home.php">Voltar para o Início</a>
+        </div>
     	</form>
 </div>
 </body>

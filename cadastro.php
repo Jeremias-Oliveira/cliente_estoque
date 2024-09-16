@@ -127,9 +127,9 @@ if (isset($_POST['submit'])) {
         <label for="gender">Sexo:</label>
         <select id="gender" name="gender" required>
             <option value="" disabled selected>Selecione o Sexo</option>
-            <option value="male">Masculino</option>
-            <option value="female">Feminino</option>
-            <option value="other">Outro</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Feminino">Feminino</option>
+            <option value="Outro">Outro</option>
         </select><br><br>
         
         <label for="date">Data de Nascimento:</label>

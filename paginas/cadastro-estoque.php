@@ -81,6 +81,10 @@ if (isset($_POST['submit'])) {
         <input type="text" id="fornec" name="fornec" placeholder="Fornecedor do Produto " required><br><br>
         
         <input type="submit" name="submit" value="Cadastrar">
+
+        <div class="form-group">
+                <a href="home.php">Voltar para o Início</a>
+        </div>
     	</form>
 </div>
 </body>

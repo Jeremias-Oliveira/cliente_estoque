@@ -23,6 +23,24 @@ if ($stmt->rowCount() > 0) {
     $row = null;
     echo "Nenhum usuário encontrado.";
 }
+
+// Formatando a data de nascimento
+if (isset($row['idade']) && !empty($row['idade'])) {
+    $data_nascimento = new DateTime($row['idade']);
+    $data_nascimento_formatada = $data_nascimento->format('d/m/Y');
+} else {
+    $data_nascimento_formatada = 'Data não disponível';
+}
+
+// Traduzindo o sexo para português
+$sexos = [
+    'Masculino' => 'Masculino',
+    'Feminino' => 'Feminino',
+    'Outro' => 'Outro'
+];
+
+$sexo_formatado = isset($sexos[$row['sexo']]) ? $sexos[$row['sexo']] : 'Sexo não disponível';
+
 if ($foto) {
     $imagem_perfil = $foto;
     // Verifica se a imagem existe na pasta
@@ -94,18 +112,18 @@ if ($foto) {
     <div class="container">
         <?php if ($row): ?>
             <div class="profile-img">
-                <img src="<?php echo $imagem_exibir; ?>" alt="Imagem de Perfil">
+                <img src="<?php echo htmlspecialchars($imagem_exibir); ?>" alt="Imagem de Perfil">
             </div>
             <div class="profile-info">
-                <p><strong>Nome:</strong> <?php echo $row['nome']; ?></p>
-                <p><strong>Sobrenome:</strong> <?php echo $row['sobrenome']; ?></p>
-                <p><strong>CPF:</strong> <?php echo $row['cpf']; ?></p>
-                <p><strong>Sexo:</strong> <?php echo $row['sexo']; ?></p>
-                <p><strong>Data de Nascimento:</strong> <?php echo $row['idade']; ?></p>
-                <p><strong>Endereço:</strong> <?php echo $row['endereco']; ?></p>
-                <p><strong>Email:</strong> <?php echo $row['email']; ?></p>
+                <p><strong>Nome:</strong> <?php echo htmlspecialchars($row['nome']); ?></p>
+                <p><strong>Sobrenome:</strong> <?php echo htmlspecialchars($row['sobrenome']); ?></p>
+                <p><strong>CPF:</strong> <?php echo htmlspecialchars($row['cpf']); ?></p>
+                <p><strong>Sexo:</strong> <?php echo htmlspecialchars($sexo_formatado); ?></p>
+                <p><strong>Data de Nascimento:</strong> <?php echo htmlspecialchars($data_nascimento_formatada); ?></p>
+                <p><strong>Endereço:</strong> <?php echo htmlspecialchars($row['endereco']); ?></p>
+                <p><strong>Email:</strong> <?php echo htmlspecialchars($row['email']); ?></p>
                 <p><strong>Senha:</strong> ********</p>
-                <p><strong>Telefone:</strong> <?php echo $row['telefone']; ?></p>
+                <p><strong>Telefone:</strong> <?php echo htmlspecialchars($row['telefone']); ?></p>
             </div>
         <?php else: ?>
             <p>Nenhum usuário encontrado.</p>

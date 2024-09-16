@@ -111,3 +111,12 @@ a:hover {
     color: #721c24;
     border: 1px solid #f5c6cb;
 }
+
+.form-group:last-child {
+    text-align: center; /* Alinha o link ao centro */
+    margin-top: 20px; /* Adiciona um espaço acima do link */
+}
+
+.form-group:last-child a {
+    margin-top: 20px; /* Adiciona um espaço acima do link, se necessário */
+}
