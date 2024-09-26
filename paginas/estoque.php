@@ -88,16 +88,14 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <tbody>
                             <?php if (!empty($clientes)): ?>
                                 <?php foreach ($clientes as $cliente): ?>
-                                    <tr>
+                                    <tr class="<?php echo $cliente['quantidade'] <= 5 ? 'table-danger' : ''; ?>">
                                         <td><?php echo htmlspecialchars($cliente['id_estoque']); ?></td>
                                         <td><?php echo htmlspecialchars($cliente['nome_produto']); ?></td>
                                         <td><?php echo htmlspecialchars($cliente['categoria']); ?></td>
                                         <td><?php echo htmlspecialchars($cliente['descricao']); ?></td>
                                         <td><?php echo htmlspecialchars($cliente['quantidade']); ?></td>
                                         <td>
-                                            <?php
-                                            echo "R$ " . number_format($cliente['preco'], 2, ',', '.');
-                                            ?>
+                                            <?php echo "R$ " . number_format($cliente['preco'], 2, ',', '.'); ?>
                                         </td>
                                         <td><?php echo htmlspecialchars($cliente['fornecedor']); ?></td>
                                         <td>

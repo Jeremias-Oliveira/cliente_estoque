@@ -18,14 +18,12 @@ if (isset($_POST['submit'])) {
     $descricao = $_POST['desc'];
     $quantidade = $_POST['quant'];
     $preco = $_POST['preco'];
-    $movimentacao = $_POST['moviment'];
-    $data = $_POST['date'];
     $fornecedor = $_POST['fornec'];
 
     try {
         // Prepare a SQL statement
-        $sql = "INSERT INTO estoque (nome_produto, categoria, descricao, quantidade, data, movimentacao, preco, fornecedor) 
-                VALUES (:nome, :categoria, :descricao, :quantidade, :data, :movimentacao, :preco, :fornecedor)";
+        $sql = "INSERT INTO estoque (nome_produto, categoria, descricao, quantidade, preco, fornecedor) 
+                VALUES (:nome, :categoria, :descricao, :quantidade, :preco, :fornecedor)";
         $stmt = $conexao->prepare($sql);
 
         // Bind parameters to avoid SQL injection
@@ -33,8 +31,6 @@ if (isset($_POST['submit'])) {
         $stmt->bindParam(':categoria', $categoria);
         $stmt->bindParam(':descricao', $descricao);
         $stmt->bindParam(':quantidade', $quantidade);
-        $stmt->bindParam(':data', $data);
-        $stmt->bindParam(':movimentacao', $movimentacao);
         $stmt->bindParam(':preco', $preco);
         $stmt->bindParam(':fornecedor', $fornecedor);
 
