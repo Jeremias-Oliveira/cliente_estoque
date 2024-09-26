@@ -210,7 +210,7 @@ try {
             color: white;
             border: none;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 18px;
             padding: 10px;
             width: 100%;
             font-weight: bold;

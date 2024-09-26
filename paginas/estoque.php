@@ -3,7 +3,6 @@ session_start();
 
 // Verifica se a sessão está ativa
 if (!isset($_SESSION['email']) || !isset($_SESSION['senha']) || !isset($_SESSION['nome']) || !isset($_SESSION['id'])) {
-    // Se não estiver ativo, destrói a sessão e redireciona para a página inicial
     unset($_SESSION['email']);
     unset($_SESSION['senha']);
     unset($_SESSION['nome']);
@@ -11,7 +10,7 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['senha']) || !isset($_SESSION
     unset($_SESSION['foto']);
 
     header('Location: ../index.php');
-    exit(); // Certifique-se de encerrar a execução após o redirecionamento
+    exit();
 }
 
 $id = $_SESSION['id'];
@@ -21,12 +20,17 @@ $nome = $_SESSION['nome'];
 // Inclua o arquivo de configuração para a conexão com o banco de dados
 include_once('../config/config.php');
 
-// Consultar dados dos clientes
-$stmt = $conexao->prepare("SELECT id_estoque, nome_produto, categoria, descricao, quantidade, data, movimentacao, preco, fornecedor FROM estoque");
+// Inicializa a variável de pesquisa
+$searchTerm = '';
+if (isset($_GET['search'])) {
+    $searchTerm = $_GET['search'];
+}
+
+// Consultar dados do estoque com base na pesquisa
+$stmt = $conexao->prepare("SELECT id_estoque, nome_produto, categoria, descricao, quantidade, preco, fornecedor FROM estoque WHERE nome_produto LIKE :search OR categoria LIKE :search");
+$stmt->bindValue(':search', "%$searchTerm%", PDO::PARAM_STR);
 $stmt->execute();
 $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// Verifique se a consulta retornou resultados
 ?>
 
 <!DOCTYPE html>
@@ -45,9 +49,18 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <div class="container mt-4">
 <?php if (isset($_GET['message'])): ?>
     <div class="alert alert-info">
-        <?php echo htmlspecialchars($_GET['message']); header("Refresh: 3, estoque.php");?>
+        <?php echo htmlspecialchars($_GET['message']); header("Refresh: 3, estoque.php"); ?>
     </div>
 <?php endif; ?>
+
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <form action="estoque.php" method="GET" class="d-flex">
+                <input type="text" name="search" class="form-control" placeholder="Pesquisar produto..." value="<?php echo htmlspecialchars($searchTerm); ?>">
+                <button type="submit" class="btn btn-primary ms-2">Pesquisar</button>
+            </form>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-md-12">
@@ -67,8 +80,6 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <th>Categoria</th>
                                 <th>Descrição</th>
                                 <th>Quantidade</th>
-                                <th>Data</th>
-                                <th>Movimentação</th>
                                 <th>Preço</th>
                                 <th>Fornecedor</th>
                                 <th>Ações</th>
@@ -83,22 +94,52 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <td><?php echo htmlspecialchars($cliente['categoria']); ?></td>
                                         <td><?php echo htmlspecialchars($cliente['descricao']); ?></td>
                                         <td><?php echo htmlspecialchars($cliente['quantidade']); ?></td>
-                                        <td><?php echo htmlspecialchars($cliente['data']); ?></td>
-                                        <td><?php echo htmlspecialchars($cliente['movimentacao']); ?></td>
-                                        <td><?php echo htmlspecialchars($cliente['preco']); ?></td>
+                                        <td>
+                                            <?php
+                                            echo "R$ " . number_format($cliente['preco'], 2, ',', '.');
+                                            ?>
+                                        </td>
                                         <td><?php echo htmlspecialchars($cliente['fornecedor']); ?></td>
                                         <td>
                                             <a href="editar_estoque.php?id=<?php echo urlencode($cliente['id_estoque']); ?>" class="btn btn-success btn-sm">Editar</a>
+                                            <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#movimentacaoModal<?php echo $cliente['id_estoque']; ?>">Movimentação</button>
                                             <form action="delete_estoque.php" method="POST" class="d-inline">
                                                 <input type="hidden" name="id_estoque" value="<?php echo htmlspecialchars($cliente['id_estoque']); ?>">
                                                 <button type="submit" name="delete_estoque" class="btn btn-danger btn-sm">Excluir</button>
                                             </form>
                                         </td>
                                     </tr>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="movimentacaoModal<?php echo $cliente['id_estoque']; ?>" tabindex="-1" aria-labelledby="movimentacaoModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="movimentacaoModalLabel">Movimentação do Estoque</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="movimentacao_estoque.php" method="POST">
+                                                        <input type="hidden" name="id_estoque" value="<?php echo htmlspecialchars($cliente['id_estoque']); ?>">
+                                                        <div class="mb-3">
+                                                            <label for="adicionar" class="form-label">Adicionar Quantidade</label>
+                                                            <input type="number" name="adicionar" class="form-control" min="0" placeholder="Quantidade a adicionar">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="retirar" class="form-label">Retirar Quantidade</label>
+                                                            <input type="number" name="retirar" class="form-control" min="0" placeholder="Quantidade a retirar">
+                                                        </div>
+                                                        <button type="submit" class="btn btn-primary">Confirmar</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="9" class="text-center">Nenhum produto encontrado</td>
+                                    <td colspan="8" class="text-center">Nenhum produto encontrado</td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>

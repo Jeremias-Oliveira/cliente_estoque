@@ -42,7 +42,7 @@ if (isset($_POST['submit'])) {
         $stmt->execute();
 
         echo '<div class="message success">Produto adicionado com sucesso!</div>';
-        header("Refresh: 3, home.php");
+        header("Refresh: 3, estoque.php");
     } catch (PDOException $e) {
         // Mensagem de erro estilizada
         echo '<div class="message error">Erro ao adicionar o produto '. '</div>';
@@ -67,23 +67,13 @@ if (isset($_POST['submit'])) {
         <label for="preco">Preço:</label>
         <input type="number" step="0.01" min="0" id="preco" name="preco" placeholder="Preço do  Produto" required><br><br>
         
-        <label for="moviment">Movimentação:</label>
-        <select id="moviment" name="moviment" required>
-            <option value="" disabled selected>Selecione a Movimentação</option>
-            <option value="Entrada">Entrada</option>
-            <option value="Saída">Saída</option>
-        </select><br><br>
-        
-        <label for="date">Data da Movimentação:</label>
-        <input type="date" id="date" name="date" placeholder="Data da Movimentação do Produto" required><br><br>
-        
         <label for="fornec">Fornecedor:</label>
         <input type="text" id="fornec" name="fornec" placeholder="Fornecedor do Produto " required><br><br>
         
         <input type="submit" name="submit" value="Cadastrar">
 
         <div class="form-group">
-                <a href="home.php">Voltar para o Início</a>
+                <a href="estoque.php">Voltar para a Lista de Estoque</a>
         </div>
     	</form>
 </div>

@@ -115,7 +115,7 @@ if (isset($_POST['submit'])) {
         <input type="submit" name="submit" value="Atualizar">
 
         <div class="form-group">
-            <a href="estoque.php">Voltar para o Estoque</a>
+            <a href="estoque.php">Voltar para a Lista de Estoque</a>
         </div>
     </form>
 </div>

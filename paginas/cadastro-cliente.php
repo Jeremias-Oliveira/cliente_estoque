@@ -40,7 +40,7 @@ if (isset($_POST['submit'])) {
         $stmt->execute();
 
         echo '<div class="message success">Cliente adicionado com sucesso!</div>';
-        header("Refresh: 3, ../home.php");
+        header("Refresh: 3, cliente.php");
     } catch (PDOException $e) {
         // Mensagem de erro estilizada
         echo '<div class="message error">Erro ao adicionar o cliente '. '</div>';
@@ -79,7 +79,7 @@ if (isset($_POST['submit'])) {
         <input type="submit" name="submit" value="Cadastrar">
 
         <div class="form-group">
-                <a href="home.php">Voltar para o Início</a>
+                <a href="cliente.php">Voltar para a Lista de Clientes</a>
         </div>
     	</form>
 </div>

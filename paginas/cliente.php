@@ -3,7 +3,6 @@ session_start();
 
 // Verifica se a sessão está ativa
 if (!isset($_SESSION['email']) || !isset($_SESSION['senha']) || !isset($_SESSION['nome']) || !isset($_SESSION['id'])) {
-    // Se não estiver ativo, destrói a sessão e redireciona para a página inicial
     unset($_SESSION['email']);
     unset($_SESSION['senha']);
     unset($_SESSION['nome']);
@@ -11,7 +10,7 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['senha']) || !isset($_SESSION
     unset($_SESSION['foto']);
 
     header('Location: ../index.php');
-    exit(); // Certifique-se de encerrar a execução após o redirecionamento
+    exit();
 }
 
 $id = $_SESSION['id'];
@@ -21,12 +20,27 @@ $nome = $_SESSION['nome'];
 // Inclua o arquivo de configuração para a conexão com o banco de dados
 include_once('../config/config.php');
 
-// Consultar dados dos clientes
-$stmt = $conexao->prepare("SELECT id_clientes, nome_completo, cpf, sexo, idade, endereco, email, telefone FROM clientes");
+// Inicializa a variável de pesquisa
+$searchTerm = '';
+if (isset($_GET['search'])) {
+    $searchTerm = $_GET['search'];
+}
+
+// Consultar dados dos clientes com base na pesquisa
+$stmt = $conexao->prepare("
+    SELECT id_clientes, nome_completo, cpf, sexo, idade, endereco, email, telefone 
+    FROM clientes 
+    WHERE nome_completo LIKE :search 
+       OR cpf LIKE :search 
+       OR email LIKE :search 
+       OR sexo LIKE :search 
+       OR idade LIKE :search 
+       OR endereco LIKE :search 
+       OR telefone LIKE :search
+");
+$stmt->bindValue(':search', "%$searchTerm%", PDO::PARAM_STR);
 $stmt->execute();
 $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// Verifique se a consulta retornou resultados
 ?>
 
 <!DOCTYPE html>
@@ -43,11 +57,21 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body>
 
 <div class="container mt-4">
-<?php if (isset($_GET['message'])): ?>
-    <div class="alert alert-info">
-        <?php echo htmlspecialchars($_GET['message']); header("Refresh: 3, cliente.php");?>
+    <?php if (isset($_GET['message'])): ?>
+        <div class="alert alert-info">
+            <?php echo htmlspecialchars($_GET['message']); ?>
+            <?php header("Refresh: 3, cliente.php"); ?>
+        </div>
+    <?php endif; ?>
+
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <form action="cliente.php" method="GET" class="d-flex">
+                <input type="text" name="search" class="form-control" placeholder="Pesquisar cliente..." value="<?php echo htmlspecialchars($searchTerm); ?>">
+                <button type="submit" class="btn btn-primary ms-2">Pesquisar</button>
+            </form>
+        </div>
     </div>
-<?php endif; ?>
 
     <div class="row">
         <div class="col-md-12">
@@ -81,7 +105,12 @@ $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <td><?php echo htmlspecialchars($cliente['nome_completo']); ?></td>
                                         <td><?php echo htmlspecialchars($cliente['cpf']); ?></td>
                                         <td><?php echo htmlspecialchars($cliente['sexo']); ?></td>
-                                        <td><?php echo htmlspecialchars($cliente['idade']); ?></td>
+                                        <td>
+                                            <?php
+                                            $dataNascimento = new DateTime($cliente['idade']);
+                                            echo $dataNascimento->format('d/m/Y');
+                                            ?>
+                                        </td>
                                         <td><?php echo htmlspecialchars($cliente['endereco']); ?></td>
                                         <td><?php echo htmlspecialchars($cliente['email']); ?></td>
                                         <td><?php echo htmlspecialchars($cliente['telefone']); ?></td>
